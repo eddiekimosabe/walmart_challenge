@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { itemActions } from '../../actions/itemActions';
 import ItemsList from './ItemsList';
 import Item from './Item';
+import { Link } from 'react-router-dom';
+import { Grid } from '@material-ui/core';
+
 class ItemsPage extends Component {
 	constructor(props){
 		super(props);
@@ -16,15 +19,41 @@ class ItemsPage extends Component {
 		const {handleDelete, items, match} = this.props;
 		if (!Array.isArray(items) || !items.length){return null};
 		const itemId = match.params.id;
-		const item = items.find(u => u.id === Number(itemId));
+		const item = items.find(i => i.id === Number(itemId));
 		debugger;
 		
 		return(
-			<React.Fragment>
-				<h1>Items</h1>
+			<Grid
+			  container
+			>
+
+			<Grid
+			  item
+			  md={7}
+			  xs={12}
+			>
+
+				<h1>
+					Items
+				</h1>
+				<Link to="/items/new">New Item</Link>
+			</Grid>
+			<Grid
+			  item
+			  md={7}
+			  xs={12}
+			>
 				<ItemsList items={items}/>
+			</Grid>	
+
+			<Grid
+			  item
+			  md={7}
+			  xs={12}
+			>
 				{ item ? <Item item={item} handleDelete={handleDelete}/> : null}
-			</React.Fragment>
+			</Grid>
+			</Grid>
 		)
 	}
 }

@@ -8,7 +8,8 @@ const initialState = {
     formType: '',
 		data: {
 			id: '',
-			name: ''
+			name: '',
+      items: []
 		}
 	},
 
@@ -42,6 +43,13 @@ function editReducer(state = initialState.edit, action) {
         changed: true,
         data: newForm,
       };
+    case formConstants.LOAD_EDIT_FORM:
+     const form = { ...state.data }
+     Object.keys(action.data).forEach(attribute => { form[attribute] = action.data[attribute] })
+      return {
+        ...state,
+        data: form
+      }
     case formConstants.SET_UP_EDIT_FORM:
       return {
         ...state,

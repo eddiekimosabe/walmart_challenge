@@ -1,5 +1,10 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
 class ItemsList extends Component {
 	constructor(props){
@@ -7,13 +12,26 @@ class ItemsList extends Component {
 		this.renderItems = this.renderItems.bind(this);
 	}
 	renderItems(items){
-		return items.map(item => (
-			<li key={item.id}>
+		return(
+		<Table>
+		<TableHead>
+			<TableRow>
+				<TableCell>
+				Name
+				</TableCell>
+			</TableRow>
+		</TableHead>
+		{items.map(item => (
+			<TableRow hover key={item.id}>
 				<Link to={`/items/${item.id}`}>
-					{item.name}
+					<TableCell>
+						{item.name}
+					</TableCell>
 				</Link>
-			</li>
-		))
+			</TableRow>
+			))}
+		</Table>
+		)
 	}
 
 	render(){

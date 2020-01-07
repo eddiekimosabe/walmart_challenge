@@ -10,7 +10,7 @@ class V1::ItemsController < ApplicationController
 	end
 
 	def create
-	  respond_with :api, Item.create(form_params)
+	  respond_with :v1, Item.create(form_params)
 	end
 
 	def destroy

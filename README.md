@@ -3,22 +3,8 @@
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
-Things you may want to cover:
+RoR application with Rails as the backend portion and React/Redux as the client facing portion
 
-* Ruby version
+In order to start the application up please type: rails s
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Styling is very minimal as I got a little too deep into the react/redux pipework 

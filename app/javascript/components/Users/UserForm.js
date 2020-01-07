@@ -5,6 +5,7 @@ import { formActions } from '../../actions/formActions';
 import { formSelectors } from '../../selectors/formSelectors';
 import { formThunks } from '../../thunks/formThunks';
 import { userFormActions } from '../../actions/userFormActions';
+import { Grid } from '@material-ui/core';
 
 class UserForm extends Component {
 	constructor(props){
@@ -13,17 +14,40 @@ class UserForm extends Component {
 	}
 
 	componentDidMount(){
+		this.props.loadUserEditForm(this.props.match.params.id)
 		this.props.setUpEditableForm();
 	}
 
 	handleSubmit(e){
 		e.preventDefault();
-		this.props.handleSubmit();
+		if(this.props.formType==="edit"){
+			this.props.handleUpdate(this.props.match.params.id)
+		} else {
+			this.props.handleCreate()
+		}
 	}
 
 	render(){
 		const {addChange, formEdit} = this.props;
 		return(
+			<Grid
+			  container
+			>
+
+			<Grid
+			  item
+			  md={7}
+			  xs={12}
+			>
+				<h2>
+					Create User
+				</h2>
+			</Grid>
+			<Grid
+			  item
+			  md={7}
+			  xs={12}
+			>
 			<form className="eventForm" onSubmit={this.handleSubmit}>
 				<TextField
 				  id="outlined-uncontrolled-text"
@@ -38,6 +62,8 @@ class UserForm extends Component {
 				<button type="submit">Submit</button>
 				</div>
 			</form>
+			</Grid>
+			</Grid>
 		)
 	}
 }
@@ -54,7 +80,9 @@ function mapDispatchToProps(dispatch) {
 	return {
 		addChange(fieldName,fieldValue){dispatch(formActions.addChange(fieldName, fieldValue))},
 		setUpEditableForm(){dispatch(formThunks.setUpForm())},
-		handleSubmit(){dispatch(userFormActions.handleSubmit())}
+		handleCreate(){dispatch(userFormActions.handleCreate())},
+		handleUpdate(id){dispatch(userFormActions.handleUpdate(id))},
+		loadUserEditForm(id){dispatch(userFormActions.loadUserEditForm(id))}
 	}
 }
 

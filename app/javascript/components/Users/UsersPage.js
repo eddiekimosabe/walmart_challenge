@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { userActions } from '../../actions/userActions';
 import UsersList from './UsersList';
 import User from './User';
+import { Link } from 'react-router-dom';
+import { Grid } from '@material-ui/core';
+
 class UsersPage extends Component {
 	constructor(props){
 		super(props);
@@ -19,11 +22,38 @@ class UsersPage extends Component {
 		const user = users.find(u => u.id === Number(userId));
 		
 		return(
-			<React.Fragment>
-				<h1>Users</h1>
+			<Grid
+			  container
+			>
+
+			<Grid
+			  item
+			  md={7}
+			  xs={12}
+			>
+				<h1>
+					Users
+				</h1>
+				<Link to="/users/new">New User</Link>
+			</Grid>
+
+			<Grid
+			  item
+			  md={7}
+			  xs={12}
+			>
 				<UsersList users={users}/>
+			</Grid>
+
+			<Grid
+			  item
+			  md={7}
+			  xs={12}
+			>
 				{ user ? <User user={user} handleDelete={handleDelete}/> : null}
-			</React.Fragment>
+			</Grid>
+
+			</Grid>
 		)
 	}
 }

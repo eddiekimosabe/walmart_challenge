@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { orderActions } from '../../actions/orderActions';
+import { Link } from 'react-router-dom';
 import OrdersList from './OrdersList';
 import Order from './Order';
+import { Grid } from '@material-ui/core';
+
 class OrdersPage extends Component {
 	constructor(props){
 		super(props);
@@ -14,16 +17,39 @@ class OrdersPage extends Component {
 
 	render(){
 		const {handleDelete, orders, match} = this.props;
-		if (!Array.isArray(orders) || !orders.length){return null};
 		const orderId = match.params.id;
 		const order = orders.find(o => o.id === Number(orderId));
 		
 		return(
-			<React.Fragment>
-				<h1>Orders</h1>
+			<Grid
+			  container
+			>
+
+			<Grid
+			  item
+			  md={7}
+			  xs={12}
+			>
+				<h1>
+					Orders
+				</h1>
+			</Grid>
+			<Grid
+			  item
+			  md={7}
+			  xs={12}
+			>
 				<OrdersList orders={orders}/>
+			</Grid>
+
+			<Grid
+			  item
+			  md={7}
+			  xs={12}
+			>
 				{ order ? <Order order={order} handleDelete={handleDelete}/> : null}
-			</React.Fragment>
+			</Grid>
+			</Grid>
 		)
 	}
 }

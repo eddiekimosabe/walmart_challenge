@@ -23,30 +23,45 @@ class RoutePage extends Component {
 			<div className="container">
 				<Router history={history}>
 					<Switch>
-
+						<RouteWithLayout
+						  component={ItemForm}
+						  exact
+						  layout={Main}
+						  path="/items/new"
+						/>
+						<RouteWithLayout
+						  component={ItemForm}
+						  exact
+						  layout={Main}
+						  path="/items/:id/edit"
+						  componentProps={{formType: "edit"}}
+						/>
 						<RouteWithLayout
 						  component={ItemsPage}
 						  exact
 						  layout={Main}
 						  path="/items/:id?"
+						  componentProps={{formType: "new"}}
 						/>
 						<RouteWithLayout
 						  component={OrderForm}
 						  exact
 						  layout={Main}
-						  path="/orders/new"
+						  path="/users/:userId/orders/new"
 						/>
 						<RouteWithLayout
 						  component={OrderForm}
 						  exact
 						  layout={Main}
 						  path="/orders/:id/edit"
+						  componentProps={{formType: "edit"}}
 						/>
 						<RouteWithLayout
 						  component={OrdersPage}
 						  exact
 						  layout={Main}
 						  path="/orders/:id?"
+						  componentProps={{formType: "new"}}
 						/>
 						<RouteWithLayout
 						  component={UserForm}
@@ -59,13 +74,17 @@ class RoutePage extends Component {
 						  exact
 						  layout={Main}
 						  path="/users/:id/edit"
+						  componentProps={{formType: "edit"}}
 						/>
 						<RouteWithLayout
 						  component={UsersPage}
 						  exact
 						  layout={Main}
 						  path="/users/:id?"
+						  componentProps={{formType: "new"}}
 						/>
+
+						<Redirect to="/users" />
 					</Switch>
 				</Router>
 			</div>

@@ -4,6 +4,7 @@ export const formActions = {
 	addChange,
 	editFormPending,
 	editFormSuccess,
+	loadData,
 	setNewEditableForm
 }
 
@@ -34,3 +35,10 @@ function editFormSuccess(form) {
 		form
 	}
 };
+
+function loadData(data){
+	return {
+		type: formConstants.LOAD_EDIT_FORM,
+		data
+	}
+}

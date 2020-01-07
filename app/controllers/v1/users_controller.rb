@@ -10,8 +10,7 @@ class V1::UsersController < ApplicationController
 	end
 
 	def create
-		binding.pry
-	  respond_with :api, User.create(form_params)
+	  respond_with :v1, User.create(form_params)
 	end
 
 	def destroy

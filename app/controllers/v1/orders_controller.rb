@@ -2,7 +2,14 @@ class V1::OrdersController < ApplicationController
 	respond_to :json
 
 	def index
-	  respond_with Order.order(id: :DESC)
+		@orders = Order.order(id: :DESC)
+		@orders_hash_array = []
+		@orders.each do |order|
+			order_hash = order.attributes
+			order_hash.merge!(items: order.items)
+			@orders_hash_array << order_hash
+		end
+	  respond_with @orders_hash_array
 	end
 
 	def show
@@ -10,7 +17,18 @@ class V1::OrdersController < ApplicationController
 	end
 
 	def create
-	  respond_with :api, Order.create(form_params)
+	  begin
+	  	ActiveRecord::Base.transaction do 
+	  		order = Order.create!(user_id: params[:user_id])
+	  		form_params[:items].each do |item|
+	  			order.items << Item.find(item[:id])
+	  		end
+	  		binding.pry
+	  	end
+	  	# render json: { status: 200, order: order }.to_json
+	  rescue ActiveRecord::RecordInvalid => exception 
+	  	# render json: { error: exception.message, status: :internal_server_error }.to_json
+	  end
 	end
 
 	def destroy
@@ -26,6 +44,6 @@ class V1::OrdersController < ApplicationController
 	private
 
 	def form_params
-	  params.require(:order).permit(:id)
+	  params.require(:form).permit(:items => [:id, :name])
 	end
 end
