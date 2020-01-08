@@ -22,13 +22,17 @@ class OrderForm extends Component {
 
 	componentDidMount(){
 		this.props.getAllItems();
-		this.props.loadOrderEditForm(this.props.match.params.id);
+		this.props.loadCart(this.props.match.params.id);
 		this.props.setUpEditableForm();
 	}
 
-	handleSubmit(event){
-		event.preventDefault();
-		this.props.handleCreate(event);
+	handleSubmit(e){
+		e.preventDefault();
+		if(this.props.formType === "edit"){
+			this.props.handleUpdate()
+		} else{
+			this.props.handleCreate();
+		}
 	}
 
 	addToCart(item){
@@ -91,7 +95,7 @@ class OrderForm extends Component {
 			  md={7}
 			  xs={12}
 			>
-			<form className="eventForm" onSubmit={(event) => this.handleSubmit(event)}>
+			<form className="eventForm" onSubmit={this.handleSubmit}>
 
 				<div>
 					{itemList}
@@ -134,20 +138,20 @@ function mapDispatchToProps(dispatch, ownProps) {
 		addToCart(item){
 			dispatch(cartActions.addToCart(item))
 		},
+		loadCart(id){
+			dispatch(cartActions.loadCart(id))
+		},
 		removeFromCart(item){
 			dispatch(cartActions.removeFromCart(item))
 		},
 		setUpEditableForm(){
 			dispatch(formThunks.setUpForm())
 		},
-		handleCreate(event){
-			dispatch(orderFormActions.handleCreate(event, ownProps))
+		handleCreate(){
+			dispatch(orderFormActions.handleCreate(ownProps.match))
 		},
 		handleUpdate(){
-			dispatch(orderFormActions.handleUpdate())
-		},
-		loadOrderEditForm(id){
-			dispatch(orderFormActions.loadOrderEditForm(id))
+			dispatch(orderFormActions.handleUpdate(ownProps.match))
 		},
 		getAllItems(){
 			dispatch(itemActions.getAll())

@@ -13,7 +13,10 @@ class V1::OrdersController < ApplicationController
 	end
 
 	def show
-	  respond_with Order.find(params[:id])
+		order = Order.find(params[:id])
+		order_hash = order.attributes
+		order_hash.merge!(items: order.items)
+	  respond_with order_hash
 	end
 
 	def create
@@ -23,7 +26,7 @@ class V1::OrdersController < ApplicationController
 	  		form_params[:items].each do |item|
 	  			order.items << Item.find(item[:id])
 	  		end
-	  		binding.pry
+	  		order.save!
 	  	end
 	  	# render json: { status: 200, order: order }.to_json
 	  rescue ActiveRecord::RecordInvalid => exception 
@@ -36,9 +39,20 @@ class V1::OrdersController < ApplicationController
 	end
 
 	def update
-	  order = Order.find(params['id'])
-	  order.update(form_params)
-	  respond_with Order, json: order
+		binding.pry
+		begin
+	  	@order = Order.find(params[:id])
+	  	#update userId if necessary 
+	  	#update items
+	  	@order.items.clear 
+	  	form_params[:items].each do |item|
+	  		@order.items << Item.find(item[:id])
+	  	end
+	  	@order.save!
+	  	respond_with Order, json: @order
+	  rescue ActiveRecord::RecordInvalid => exception
+		end
+
 	end
 
 	private

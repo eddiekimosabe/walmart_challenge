@@ -8,11 +8,11 @@ export const orderFormActions = {
 	loadOrderEditForm
 }
 
-function handleCreate(event, props) {
+function handleCreate(match) {
 	return (dispatch, getState) => {
 		const state = getState();
-		const form = state.cart
-		const userId = props.match.params.userId
+		const form = state.cart;
+		const userId = match.params.userId
 		orderService.handleCreate(form, userId).then(
 			response => {
 				dispatch(success(response));
@@ -26,11 +26,12 @@ function handleCreate(event, props) {
 	function failure(error) { return { type: formConstants.HANDLE_SUBMIT_FAILURE, error } }
 }
 
-function handleUpdate() {
+function handleUpdate(match) {
 	return (dispatch, getState) => {
 		const state = getState();
-		const form = state.form.edit.data
-		orderService.handleUpdate(form).then(
+		const form = state.cart;
+		const id = match.params.id
+		orderService.handleUpdate(form, id).then(
 			response => {
 				dispatch(success(response));
 			},
